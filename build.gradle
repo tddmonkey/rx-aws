@@ -1,9 +1,21 @@
+buildscript {
+	repositories {
+		maven { url 'http://repo.spring.io/plugins-release' }
+	}
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+	}
+}
+
 allprojects {
 	apply plugin: 'idea'
 }
 
 subprojects { subproject ->
 	apply plugin: 'java'
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	apply plugin: 'propdeps-idea'
 
 	sourceCompatibility = "1.8"
 	targetCompatibility = "1.8"
@@ -13,11 +25,13 @@ subprojects { subproject ->
 	}
 
 	ext.awsSdkVersion = "1.10.52"
+	def commonProject = "rx-aws-common"
 
-	if (subproject.name != "common") {
+	if (subproject.name != commonProject) {
+
 		dependencies {
 			compile(
-				project(":common")
+				project(":$commonProject")
 			)
 		}
 	}
@@ -27,6 +41,8 @@ subprojects { subproject ->
 			'io.reactivex:rxjava:1.1.0',
 		)
 	}
+
+	apply from: '../sonatype.gradle'
 }
 
 idea {

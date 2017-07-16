@@ -2,3 +2,8 @@ include 'common'
 include 'sqs'
 include 'dynamodb'
 include 'sns'
+
+project(":common").name = "rx-aws-common"
+project(":sns").name = "rx-sns"
+project(":sqs").name = "rx-sqs"
+project(":dynamodb").name = "rx-dynamodb"
